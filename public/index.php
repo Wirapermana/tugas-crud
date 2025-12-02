@@ -35,6 +35,7 @@ $books = $repo->getAll();
         <th>Kategori</th>
         <th>Tahun</th>
         <th>Status</th>
+        <th>Aksi</th> <!-- Kolom baru -->
     </tr>
 
     <!-- Loop data buku dan tampilkan di tabel -->
@@ -46,6 +47,11 @@ $books = $repo->getAll();
             <td><?= $buku['kategori'] ?></td>
             <td><?= $buku['tahun_terbit'] ?></td>
             <td><?= $buku['status'] ?></td>
+            <td>
+    <a href="edit.php?id=<?= $buku['id_buku'] ?>">Edit</a> |
+    <a href="delete.php?id=<?= $buku['id_buku'] ?>" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
+</td>
+
         </tr>
     <?php endforeach; ?>
 
