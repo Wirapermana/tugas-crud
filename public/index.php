@@ -35,6 +35,7 @@ $books = $repo->getAll();
         <th>Kategori</th>
         <th>Tahun</th>
         <th>Status</th>
+        <th>Cover</th>
         <th>Aksi</th> <!-- Kolom baru -->
     </tr>
 
@@ -47,6 +48,15 @@ $books = $repo->getAll();
             <td><?= $buku['kategori'] ?></td>
             <td><?= $buku['tahun_terbit'] ?></td>
             <td><?= $buku['status'] ?></td>
+            <!-- COVER -->
+            <td>
+                <?php if (!empty($buku['cover'])): ?>
+                    <img src="upload/<?= $buku['cover'] ?>" width="60">
+                <?php else: ?>
+                    (Tidak Ada)
+                <?php endif; ?>
+            </td>
+
             <td>
     <a href="edit.php?id=<?= $buku['id_buku'] ?>">Edit</a> |
     <a href="delete.php?id=<?= $buku['id_buku'] ?>" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>

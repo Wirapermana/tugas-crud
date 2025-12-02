@@ -20,11 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $coverName = null;
 
     // ---- Upload file cover ----
-    if (!empty($_FILES['cover']['name'])) {
-        $folderUpload = __DIR__ . '/../upload/';
-        $coverName = time() . "_" . basename($_FILES['cover']['name']); 
-        move_uploaded_file($_FILES['cover']['tmp_name'], $folderUpload . $coverName);
-    }
+if (!empty($_FILES['cover']['name'])) {
+    $folderUpload = __DIR__ . '/upload/'; // folder berada di dalam public/
+    
+    // Buat nama file agar tidak bentrok
+    $coverName = time() . "_" . basename($_FILES['cover']['name']); 
+    
+    // Pindahkan file ke folder upload
+    move_uploaded_file($_FILES['cover']['tmp_name'], $folderUpload . $coverName);
+}
+
 
     // Simpan data ke database via repository
     $repo->create($judul, $author, $kategori, $tahunTerbit, $status, $coverName);
