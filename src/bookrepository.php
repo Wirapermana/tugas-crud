@@ -25,6 +25,28 @@ class BookRepository {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Mengupdate data buku berdasarkan ID
+public function update($id, $judul, $author, $kategori, $tahun, $status, $cover = null) {
+
+    if ($cover) {
+        // Jika cover baru diupload
+        $stmt = $this->pdo->prepare("
+            UPDATE buku SET judul=?, author=?, kategori=?, tahun_terbit=?, status=?, cover=? 
+            WHERE id_buku=?
+        ");
+        return $stmt->execute([$judul, $author, $kategori, $tahun, $status, $cover, $id]);
+    
+    } else {
+        // Jika tidak ada cover baru
+        $stmt = $this->pdo->prepare("
+            UPDATE buku SET judul=?, author=?, kategori=?, tahun_terbit=?, status=? 
+            WHERE id_buku=?
+        ");
+        return $stmt->execute([$judul, $author, $kategori, $tahun, $status, $id]);
+    }
+}
+
+
     // Menyimpan buku baru ke database
     public function create($judul, $author, $kategori, $tahun, $status, $cover) {
         $stmt = $this->pdo->prepare("
@@ -34,4 +56,11 @@ class BookRepository {
 
         return $stmt->execute([$judul, $author, $kategori, $tahun, $status, $cover]);
     }
+
+    // Menghapus buku berdasarkan ID
+    public function delete($id) {
+    $stmt = $this->pdo->prepare("DELETE FROM buku WHERE id_buku = ?");
+    return $stmt->execute([$id]);
+}
+
 }
