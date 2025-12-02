@@ -19,6 +19,33 @@ if (!$book) {
     exit;
 }
 
+// ---- Menyimpan perubahan jika form disubmit ----
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $judul = $_POST['judul'];
+    $author = $_POST['author'];
+    $kategori = $_POST['kategori'];
+    $tahunTerbit = $_POST['tahun_terbit'];
+    $status = $_POST['status'];
+
+    $coverName = $book['cover']; // default: gunakan cover lama
+
+    // Jika user upload file baru, replace
+    if (!empty($_FILES['cover']['name'])) {
+        $folderUpload = __DIR__ . '/../upload/';
+        $coverName = time() . "_" . basename($_FILES['cover']['name']);
+        move_uploaded_file($_FILES['cover']['tmp_name'], $folderUpload . $coverName);
+    }
+
+    // Update data menggunakan repository
+    $repo->update($_GET['id'], $judul, $author, $kategori, $tahunTerbit, $status, $coverName);
+
+    // Redirect agar tidak submit ulang
+    header("Location: index.php");
+    exit;
+}
+
+
 ?>
 
 <!DOCTYPE html>
