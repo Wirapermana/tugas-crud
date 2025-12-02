@@ -6,6 +6,34 @@ require_once __DIR__ . '/../src/BookRepository.php';
 
 $repo = new BookRepository($pdo);
 
+$message = "";
+
+// Jika form disubmit (method POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Ambil input dari user
+    $judul = $_POST['judul'];
+    $author = $_POST['author'];
+    $kategori = $_POST['kategori'];
+    $tahunTerbit = $_POST['tahun_terbit'];
+    $status = $_POST['status'];
+    $coverName = null;
+
+    // ---- Upload file cover ----
+    if (!empty($_FILES['cover']['name'])) {
+        $folderUpload = __DIR__ . '/../upload/';
+        $coverName = time() . "_" . basename($_FILES['cover']['name']); 
+        move_uploaded_file($_FILES['cover']['tmp_name'], $folderUpload . $coverName);
+    }
+
+    // Simpan data ke database via repository
+    $repo->create($judul, $author, $kategori, $tahunTerbit, $status, $coverName);
+
+    // Arahkan kembali ke index
+    header("Location: index.php");
+    exit;
+
+}
 
 ?>
 
