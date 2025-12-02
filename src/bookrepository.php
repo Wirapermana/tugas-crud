@@ -26,7 +26,7 @@ class BookRepository {
     }
 
     // Menyimpan buku baru ke database
-    public function insert($judul, $author, $kategori, $tahun, $status, $cover) {
+    public function create($judul, $author, $kategori, $tahun, $status, $cover) {
         $stmt = $this->pdo->prepare("
             INSERT INTO buku (judul, author, kategori, tahun_terbit, status, cover)
             VALUES (?, ?, ?, ?, ?, ?)
