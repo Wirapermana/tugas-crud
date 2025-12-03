@@ -10,3 +10,6 @@ CREATE TABLE buku (
     status ENUM('tersedia','dipinjam') NOT NULL,
     cover VARCHAR(255)
 );
+
+ALTER TABLE buku ADD COLUMN author VARCHAR(100) AFTER judul;
+
